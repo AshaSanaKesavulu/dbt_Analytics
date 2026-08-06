@@ -7,6 +7,12 @@ sources:
     tables:
       - name: customers
         description: "Raw customer data containing information about customers of the Jaffle Shop."
+        columns:
+          - name: id
+            description: "Unique identifier for each customer."
+            data_tests:
+              - unique
+              - not_null
       - name: payments
 
       - name: orders
