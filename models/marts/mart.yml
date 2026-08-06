@@ -1,0 +1,75 @@
+models:
+  - name: fct_customer_orders
+    description: >
+      Fact model containing paid customer orders and customer sales metrics.
+      This model combines paid order information with customer details and
+      calculates transaction sequences, customer sales sequences, new versus
+      returning customer status, customer lifetime value, and first day of sale.
+
+    columns:
+      - name: order_id
+        description: "Unique identifier for the customer order."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Unique identifier of the customer associated with the order."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_jaffle_shop__customers')
+                field: customer_id
+
+      - name: order_date
+        description: "Date on which the order was placed."
+        data_tests:
+          - not_null
+
+      - name: order_status
+        description: "Current status of the customer order."
+
+      - name: total_amount_paid
+        description: "Total amount paid for the order."
+
+      - name: payment_finalized_date
+        description: "Date on which the payment for the order was finalized."
+
+      - name: first_name
+        description: "First name of the customer."
+
+      - name: last_name
+        description: "Last name of the customer."
+
+      - name: transaction_seq
+        description: >
+          Sequential number assigned to each paid order based on order date
+          and order ID.
+
+      - name: customer_sales_seq
+        description: >
+          Sequential number of the customer's paid orders based on order date
+          and order ID.
+
+      - name: nvsr
+        description: >
+          Indicates whether the order is from a new or returning customer.
+          The value is 'new' for the customer's first order and 'return'
+          for subsequent orders.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - new
+                  - return
+
+      - name: customer_lifetime_value
+        description: >
+          Cumulative total amount paid by the customer across their orders,
+          calculated in order date sequence.
+
+      - name: fdos
+        description: >
+          First day of sale for the customer, representing the date of
+          the customer's first paid order.
