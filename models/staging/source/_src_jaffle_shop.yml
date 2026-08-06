@@ -14,9 +14,24 @@ sources:
               - unique
               - not_null
       - name: payments
+        description: "Raw payment data containing payment information associated with customer orders."
+        columns:
+          - name: id
+            description: "Unique identifier for each payment."
+            data_tests:
+              - unique
+              - not_null
 
       - name: orders
         description: "Raw order data containing information about customer orders, including order status and the associated customer."
+        columns:
+          - name: id
+            description: "Unique identifier for each order."
+            data_tests:
+              - unique
+              - not_null
+        
+        
         config:
           freshness:
             warn_after:
