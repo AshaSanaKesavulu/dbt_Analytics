@@ -1,0 +1,22 @@
+sources:
+  - name: jaffle_shop
+    description: "Raw Jaffle Shop data containing customer and order information. These tables are loaded into the raw database and serve as the source data for downstream dbt staging models."
+    database: raw
+    schema: jaffle_shop
+
+    tables:
+      - name: customers
+        description: "Raw customer data containing information about customers of the Jaffle Shop."
+      - name: payments
+
+      - name: orders
+        description: "Raw order data containing information about customer orders, including order status and the associated customer."
+        config:
+          freshness:
+            warn_after:
+              count: 12
+              period: hour
+            error_after:
+              count: 1
+              period: day
+          loaded_at_field: _etl_loaded_at
